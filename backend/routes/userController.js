@@ -47,7 +47,7 @@ router.post('/login', async (req, res) => {
         return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    res.json({ message: 'Logged in successfully' });
+    res.json({user:user});
 });
 
 // Lire les détails d'un utilisateur
@@ -151,37 +151,4 @@ router.post('/:id/cart', (req, res) => {
     });
 
     
-
-
-    // User.findById(id, (err, user) => {
-    //   if (err) {
-    //     console.error(err);
-    //     return res.status(500).send('Une erreur est survenue lors de la recherche de l\'utilisateur.');
-    //   }
-  
-    //   // Réduire la quantité de chaque produit dans le panier
-    //   user.cart.forEach((item) => {
-    //     Product.findByIdAndUpdate(item.product, { $inc: { quantity: -item.quantity } }, (err) => {
-    //       if (err) {
-    //         console.error(err);
-    //         return res.status(500).send('Une erreur est survenue lors de la mise à jour de la quantité du produit.');
-    //       }
-    //     });
-    //   });
-  
-    //   // Vider le panier de l'utilisateur
-    //   user.cart = [];
-  
-    //   user.save((err) => {
-    //     if (err) {
-    //       console.error(err);
-    //       return res.status(500).send('Une erreur est survenue lors de la sauvegarde de l\'utilisateur.');
-    //     }
-  
-    //     res.send('Le panier a été validé avec succès.');
-    //   });
-    // });
-//   });
-  
-
 module.exports = router;
