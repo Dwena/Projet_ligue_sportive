@@ -1,5 +1,7 @@
 import {Link,useNavigate} from "react-router-dom";
 import { useState } from 'react';
+import axios from 'axios';
+
 
 export function Signup() {
     const navigate = useNavigate();
@@ -12,28 +14,22 @@ export function Signup() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        const response = await fetch('http://localhost:8000/user/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
+    
+        try {
+            const response = await axios.post('http://localhost:8000/user/register', {
                 firstname,
                 lastname,
                 phone,
                 email,
                 password
-            })
-        });
-
-        if (response.ok) {
-            navigate('/accueil');
-        } else {
-            // Handle error
-            console.error('Sign up failed');
+            });
+    
+            const user = response.data.user;
+            navigate('/accueil', { state: {user} });
+        } catch (error) {
+            console.error('Sign up failed', error);
         }
-    }
+    };
     return (
         <>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">

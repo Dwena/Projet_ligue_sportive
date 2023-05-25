@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {useNavigate,Link} from "react-router-dom";
+import axios from 'axios';
 
 export function Signin() {
     const [email, setEmail] = useState('');
@@ -9,22 +10,18 @@ export function Signin() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch('http://localhost:8000/user/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({email, password})
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            const user = data.user
-            navigate('/accueil', { state: {user} });;
-        } else {
+        
+        try {
+            const response = await axios.post('http://localhost:8000/user/login', {
+                email,
+                password
+            });
+    
+            const user = response.data.user;
+            navigate('/accueil', { state: { user } });
+        } catch (error) {
             setError('Mail ou Mdp incorrects');
         }
-
     }
 
     return (
