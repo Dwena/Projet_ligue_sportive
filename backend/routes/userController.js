@@ -14,7 +14,7 @@ router.post('/register', async (req, res) => {
         phone : req.body.phone,
         email : req.body.email,
         password : req.body.password,
-        administrator : req.body.administrator 
+        administrator : req.body.administrator
     });
 
     try {
@@ -35,6 +35,18 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Login users
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user || user.password !== password) {
+        return res.status(400).json({ message: 'Invalid email or password' });
+    }
+
+    res.json({ message: 'Logged in successfully' });
+});
 
 // Lire les détails d'un utilisateur
 router.get('/:id', async (req, res) => {

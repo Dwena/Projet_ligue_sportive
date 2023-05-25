@@ -8,7 +8,7 @@ const userSchema = new Schema({
         phone: String,
         email: String,
         password: String,
-        administrator: Boolean 
+        administrator: {type : Boolean, default:false} 
     }
 );
 

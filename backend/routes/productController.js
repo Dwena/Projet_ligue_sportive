@@ -12,27 +12,6 @@ router.get('/products', async (req, res) => {
     }
 });
 
-router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-
-    const user = await User.findOne({ email });
-
-    if (!user || user.password !== password) {
-        return res.status(400).json({ message: 'Invalid email or password' });
-    }
-
-    res.json({ message: 'Logged in successfully' });
-});
-
-
-router.get('/product/:title', async (req, res) => {
-    try {
-        const product = await Product.findOne({title: req.params.title});
-        res.json(product);
-    } catch (error) {
-        res.status(500).json({message: error.message});
-    }
-});
 
 router.get('/product/:id', async (req, res) => {
     try {

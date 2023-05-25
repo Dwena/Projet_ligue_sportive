@@ -9,7 +9,7 @@ export function Signin() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch('/user/login', {
+        const response = await fetch('http://localhost:8000/user/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -90,9 +90,7 @@ export function Signin() {
                                 type="submit"
                                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
-                                <Link to={'/accueil'}>
                                     Se connecter
-                                </Link>
                             </button>
                         </div>
                     </form>
