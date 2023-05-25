@@ -111,32 +111,27 @@ router.post('/:id/cart', (req, res) => {
   });
   
   // Valider le panier de l'utilisateur
-  router.post('/:id/cart/validate', (req, res) => {
-    const { id } = req.params;
-    User.findById(id).then(user=>{
-          // Réduire la quantité de chaque produit dans le panier
-          user.cart.forEach((item) => {
-            Product.findByIdAndUpdate(item.product, { $inc: { quantity: -item.quantity } }).catch
-            ((err) => {
-                console.error(err);
-                return res.status(500).send('Une erreur est survenue lors de la mise à jour de la quantité de produits.');
-                }
-            );
-          });
-      
-          // Vider le panier de l'utilisateur
-          user.cart = [];
-      
-          user.save().then().catch((err) => {
-            console.error(err);
-            return res.status(500).send('Une erreur est survenue lors de la sauvegarde de l\'utilisateur.');
-          }
-            );
-        }).catch((err)=>{
-            console.error(err);
-            return res.status(500).send('Une erreur est survenue lors de la recherche de l\'utilisateur.');
-        })
-    });
+  router.post('/:id/cart/validate', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findById(id);
+
+        // Réduire la quantité de chaque produit dans le panier
+        for (const item of user.cart) {
+            await Product.findByIdAndUpdate(item.product, { $inc: { quantity: -item.quantity } });
+        }
+
+        // Vider le panier de l'utilisateur
+        user.cart = [];
+
+        await user.save();
+        
+        return res.status(200).send('Validation du panier réussie.');
+    } catch (err) {
+        console.error(err);
+        return res.status(500).send('Une erreur est survenue lors de la validation du panier.');
+    }
+});
 
     
 

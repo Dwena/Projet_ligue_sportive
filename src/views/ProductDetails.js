@@ -1,6 +1,6 @@
-import {useState} from 'react'
-import {StarIcon} from '@heroicons/react/20/solid'
-import {RadioGroup} from '@headlessui/react'
+import { useState, useEffect } from 'react';
+import { StarIcon } from '@heroicons/react/20/solid';
+import { RadioGroup } from '@headlessui/react';
 
 const product = {
     name: 'Basic Tee 6-Pack',
@@ -60,7 +60,8 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Example() {
+export default function ProductDetails() {
+    const [product, setProduct] = useState(null);
     const [selectedColor, setSelectedColor] = useState(product.colors[0])
     const [selectedSize, setSelectedSize] = useState(product.sizes[2])
 
