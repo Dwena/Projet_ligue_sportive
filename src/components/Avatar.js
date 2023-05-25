@@ -1,5 +1,6 @@
 import {Fragment} from 'react'
 import {Menu, Transition} from '@headlessui/react'
+import {Link} from "react-router-dom";
 
 export default function Avatar({user}) {
 
@@ -41,23 +42,22 @@ export default function Avatar({user}) {
                         </Menu.Item>
                         <Menu.Item>
                             {({active}) => (
-                                <a
-                                    href="#"
-                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                <Link to={'/mon-compte'}
+                                      className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                 >
                                     Mon espace client
-                                </a>
+                                </Link>
                             )}
                         </Menu.Item>
                         {user.administrator && (
                             <Menu.Item>
                                 {({active}) => (
-                                    <a
-                                        href="#"
+                                    <Link
+                                        to={'/admin'}
                                         className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                     >
                                         Mon espace administrateur
-                                    </a>
+                                    </Link>
                                 )}
                             </Menu.Item>
                         )}
