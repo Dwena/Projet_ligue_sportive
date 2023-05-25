@@ -10,6 +10,7 @@ import ProductCatalog from "./views/ProductCatalog";
 import ProductDetails from "./views/ProductDetails";
 import MyAccount from "./views/MyAccount";
 import AdminScreen from "./views/AdminScreen";
+import ShoppingCart from "./components/ShoppingCart";
 
 function App() {
     return (
@@ -23,6 +24,7 @@ function App() {
                 <Route path="/commande" element={<OrderedProduct/>}/>
                 <Route path="/mon-compte" element={<MyAccount/>}/>
                 <Route path="/admin" element={<AdminScreen/>}/>
+                <Route path="/panier" element={<ShoppingCart/>}/>
                 <Route path="/mot-de-passe-oublie" element={<RecoverPswd/>}/>
                 <Route path="*" element={<Navigate to="/not-found" replace/>}/>
                 <Route path="/not-found" element={<NotFound/>}/>

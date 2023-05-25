@@ -4,7 +4,6 @@ import {Link} from "react-router-dom";
 
 export default function Avatar({user}) {
 
-
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ')
     }
@@ -36,13 +35,13 @@ export default function Avatar({user}) {
                         className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <Menu.Item>
 
-                            <h3 className={'block px-4 py-2 text-sm text-gray-700 font-bold'}>Bonjour {user.firstName} !
-                                ({user.administrator && "admin"})</h3>
+                            <h3 className={'block px-4 py-2 text-sm text-gray-700 font-bold'}>Bonjour {user.firstname} !
+                                {user.administrator && " (admin)"}</h3>
 
                         </Menu.Item>
                         <Menu.Item>
                             {({active}) => (
-                                <Link to={'/mon-compte'}
+                                <Link to={'/mon-compte'} state={{user: user}}
                                       className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                 >
                                     Mon espace client
@@ -53,7 +52,7 @@ export default function Avatar({user}) {
                             <Menu.Item>
                                 {({active}) => (
                                     <Link
-                                        to={'/admin'}
+                                        to={'/admin'} state={{user: user}}
                                         className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                     >
                                         Mon espace administrateur
@@ -65,7 +64,7 @@ export default function Avatar({user}) {
                             {({active}) => (
                                 <a
                                     href="/"
-                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-red-700')}
                                 >
                                     Se déconnecter
                                 </a>

@@ -7,7 +7,7 @@ import Avatar from "../components/Avatar";
 export default function Home() {
 
     let {state} = useLocation();
-
+    let user = state.user
 
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
@@ -36,16 +36,18 @@ export default function Home() {
                         </button>
                     </div>
                     <div className="hidden lg:flex lg:gap-x-12">
-                        <Link to={'/catalogue'} className="text-sm font-semibold leading-6 text-gray-900">
+                        <Link to={'/catalogue'} state={{user: user}}
+                              className="text-sm font-semibold leading-6 text-gray-900">
                             Liste des produits
                         </Link>
-                        <Link to={'/commande'} className="text-sm font-semibold leading-6 text-gray-900">
+                        <Link to={'/commande'} state={{user: user}}
+                              className="text-sm font-semibold leading-6 text-gray-900">
                             Liste des commandes
                         </Link>
                     </div>
                     <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                        {state ? (
-                            <Avatar user={state}/>) : (
+                        {user ? (
+                            <Avatar user={user}/>) : (
                             <a href="/" className="text-sm font-semibold leading-6 text-gray-900">
                                 Log in <span aria-hidden="true">&rarr;</span>
                             </a>
@@ -57,14 +59,14 @@ export default function Home() {
                     <Dialog.Panel
                         className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                         <div className="flex items-center justify-between">
-                            <a href="/accueil" className="-m-1.5 p-1.5">
+                            <Link to="/accueil" state={{user: user}} className="-m-1.5 p-1.5">
                                 <span className="sr-only">Your Company</span>
                                 <img
                                     className="h-8 w-auto"
                                     src="https://upload.wikimedia.org/wikipedia/fr/c/cf/Le_coq_sportif_2016_logo.svg?color=indigo&shade=600"
                                     alt=""
                                 />
-                            </a>
+                            </Link>
                             <button
                                 type="button"
                                 className="-m-2.5 rounded-md p-2.5 text-gray-700"
@@ -85,8 +87,8 @@ export default function Home() {
                                     </Link>
                                 </div>
                                 <div className="py-6">
-                                    {state ? (
-                                        <Avatar user={state}/>) : (
+                                    {user ? (
+                                        <Avatar user={user}/>) : (
                                         <a href="/" className="text-sm font-semibold leading-6 text-gray-900">
                                             Log in <span aria-hidden="true">&rarr;</span>
                                         </a>
@@ -128,12 +130,13 @@ export default function Home() {
                         <p className="mt-6 text-lg leading-8 text-gray-700 font-semibold"> Ce projet a été réalisé par :
                             Ali, Simon et Lucas.</p>
                         <div className="mt-10 flex items-center justify-center gap-x-6">
-                            <a
-                                href="/catalogue"
+                            <Link
+                                to="/catalogue"
+                                state={{user: user}}
                                 className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
                                 Démarrer
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,10 @@
-export default function OrderedProduct() {
+import {useLocation} from "react-router-dom";
 
+import Navbar from "../components/Navbar";
+
+export default function OrderedProduct() {
+    let {state} = useLocation();
+    let user = state.user
     const people = [
         {
             name: 'Leslie Alexander',
@@ -57,6 +62,7 @@ export default function OrderedProduct() {
 
     return (
         <>
+            <Navbar user={user}/>
             <ul role="list" className="divide-y divide-gray-100">
                 {people.map((person) => (
                     <li key={person.email} className="flex justify-between gap-x-6 py-5">

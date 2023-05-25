@@ -1,5 +1,5 @@
-import {Link,useNavigate} from "react-router-dom";
-import { useState } from 'react';
+import {Link, useNavigate} from "react-router-dom";
+import {useState} from 'react';
 import axios from 'axios';
 
 
@@ -14,7 +14,7 @@ export function Signup() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-    
+
         try {
             const response = await axios.post('http://localhost:8000/user/register', {
                 firstname,
@@ -23,9 +23,9 @@ export function Signup() {
                 email,
                 password
             });
-    
+
             const user = response.data.user;
-            navigate('/accueil', { state: {user} });
+            navigate('/accueil', {state: {user}});
         } catch (error) {
             console.error('Sign up failed', error);
         }
@@ -35,7 +35,7 @@ export function Signup() {
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <img
-                        className="mx-auto h-10 w-auto"
+                        className="mx-auto h-12 w-auto"
                         src="https://upload.wikimedia.org/wikipedia/fr/c/cf/Le_coq_sportif_2016_logo.svg?color=indigo&shade=600"
                         alt="Your Company"
                     />
@@ -140,7 +140,7 @@ export function Signup() {
                                 type="submit"
                                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
-                                    S'inscrire
+                                S'inscrire
                             </button>
                         </div>
                     </form>
