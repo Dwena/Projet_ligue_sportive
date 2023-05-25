@@ -18,7 +18,9 @@ export function Signin() {
         });
 
         if (response.ok) {
-            navigate('/accueil');
+            const data = await response.json();
+            const user = data.user
+            navigate('/accueil', { state: {user} });;
         } else {
             setError('Mail ou Mdp incorrects');
         }
