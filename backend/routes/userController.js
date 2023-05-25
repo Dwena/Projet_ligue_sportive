@@ -5,6 +5,29 @@ const Product = require('../models/Product');
 const mongoose = require('mongoose');
 
 
+router.post('/resetPassword', async (req, res) => {
+    try {
+        const { email, newPassword } = req.body;
+
+        const updatedUser = await User.updateOne(
+            { email },
+            { $set: { password: newPassword } }
+        );
+
+        if(updatedUser.nModified > 0) {
+            res.status(200).json({message: "Password updated successfully!"});
+        } else {
+            res.status(404).json({message: "User not found"});
+        }
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+});
+
+
+module.exports = router;
+
+
 // Créer un nouvel utilisateur (sign up)
 router.post('/register', async (req, res) => {
 
