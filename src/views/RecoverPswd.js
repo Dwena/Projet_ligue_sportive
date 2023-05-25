@@ -1,6 +1,31 @@
-import {Link} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import axios from 'axios';
 
 export function RecoverPswd() {
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        try {
+            const response = await axios.post('http://localhost:8000/user/resetPassword', {
+                email,
+                newPassword: password
+            });
+
+            if (response.status === 200) {
+                navigate('/');
+            } else {
+                console.error(response.data.message);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
         <>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -10,7 +35,24 @@ export function RecoverPswd() {
                     </h2>
                 </div>
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form className="space-y-6">
+                    <form className="space-y-6" onSubmit={handleSubmit}>
+                        <div>
+                            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                                Adresse email
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    autoComplete="email"
+                                    required
+                                    className="block w-full placeholder-amber-300 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    value={email}
+                                    onChange={e => setEmail(e.target.value)}
+                                />
+                            </div>
+                        </div>
                         <div>
                             <label htmlFor="recoverpwd" className="block text-sm font-medium leading-6 text-gray-900">
                                 Nouveau mot de passe
@@ -23,18 +65,18 @@ export function RecoverPswd() {
                                     autoComplete="password"
                                     required
                                     className="block w-full placeholder-amber-300 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    value={password}
+                                    onChange={e => setPassword(e.target.value)}
                                 />
                             </div>
-                            <div className="flex justify-end">
-                                <button
-                                    type="submit"
-                                    className="flex mt-2 rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                >
-                                    <Link to={'/'}>
-                                        Enregistrer
-                                    </Link>
-                                </button>
-                            </div>
+                        </div>
+                        <div className="flex justify-end">
+                            <button
+                                type="submit"
+                                className="flex mt-2 rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            >
+                                    Enregistrer
+                            </button>
                         </div>
                     </form>
                 </div>
