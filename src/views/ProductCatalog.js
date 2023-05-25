@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 export default function ProductCatalog() {
     const [products, setProducts] = useState([]);
@@ -6,11 +8,14 @@ export default function ProductCatalog() {
     const productsPerPage = 12;
 
     useEffect(() => {
-        fetch('http://localhost:8000/product/getAll')
-            .then(response => response.json())
-            .then(data => setProducts(data))
-            .catch(error => console.error(error));
-    }, []);
+        axios.get('http://localhost:8000/product/getAll')
+          .then(response => {
+            setProducts(response.data);
+          })
+          .catch(error => {
+            console.error('Error fetching products:', error);
+          });
+      }, []);
     return (
         <div className="bg-white">
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
@@ -21,7 +26,7 @@ export default function ProductCatalog() {
                     {products
                     .slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage)
                     .map((product) => (
-                        <a key={product.id} href={product.href} className="group">
+                        <Link to={`/product/${product._id}`} className="group" key={product._id} href={product.href}>
                             <div
                                 className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
                                 <img
@@ -33,7 +38,7 @@ export default function ProductCatalog() {
                             <h3 className="mt-4 text-sm text-gray-700">{product.title}</h3>
                             <p className="mt-1 text-lg font-medium text-gray-900">{product.price} €</p>
                             <p className="mt-1 text-lg font-medium text-gray-900">{product.quantity} en sock</p>
-                        </a>
+                        </Link>
                     ))}
                 </div>
                 <div className="flex justify-center mt-6">
