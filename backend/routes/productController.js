@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
 const mongoose = require('mongoose');
+
 router.get('/products', async (req, res) => {
     try {
         const product = await Product.find();
@@ -20,6 +21,15 @@ router.get('/product/:title', async (req, res) => {
     }
 });
 
+router.get('/product/:id', async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id);
+        res.json(product);
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+});
+
 router.post('/add-product', async (req, res) => {
 
         const product = new Product({
@@ -27,6 +37,7 @@ router.post('/add-product', async (req, res) => {
             title: req.body.title,
             price : req.body.price,
             img :req.body.img,
+            quantity : req.body.quantity,
             description : req.body.description,
             category : req.body.category
         });
@@ -41,7 +52,7 @@ router.post('/add-product', async (req, res) => {
 
 router.put('/product/:id', async (req, res) => {
         try {
-            const product = await Product.findByIdAndUpdate(req.params.id, req.body, {new: true});
+            const product = await Product.findByIdAndUpdate( req.params.id, req.body, {new: true});
             res.json(product);
         } catch (error) {
             res.status(400).json({message: error.message});
