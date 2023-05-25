@@ -37,6 +37,18 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Login users
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user || user.password !== password) {
+        return res.status(400).json({ message: 'Invalid email or password' });
+    }
+
+    res.json({ message: 'Logged in successfully' });
+});
 
 // Lire les détails d'un utilisateur
 router.get('/:id', async (req, res) => {

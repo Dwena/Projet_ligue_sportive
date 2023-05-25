@@ -1,23 +1,28 @@
-import {Link} from "react-router-dom";
+import { useState } from 'react';
+import {useNavigate,Link} from "react-router-dom";
 
 export function Signin() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
-    let userAdmin = {
-        firstName: 'Jane',
-        lastName: 'Cooper',
-        phone: '+1 (555) 123-4567',
-        email: 'janeCooper@gmail.com',
-        password: '**********',
-        administrator: true,
-    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const response = await fetch('http://localhost:8000/user/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({email, password})
+        });
 
-    let userClient = {
-        firstName: 'Eliott',
-        lastName: 'Cooper',
-        phone: '+1 (555) 123-4567',
-        email: 'EliotCooper@gmail.com',
-        password: '**********',
-        administrator: false,
+        if (response.ok) {
+            navigate('/accueil');
+        } else {
+            setError('Mail ou Mdp incorrects');
+        }
+
     }
 
     return (
@@ -35,7 +40,7 @@ export function Signin() {
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form className="space-y-6">
+                    <form className="space-y-6" onSubmit={handleSubmit}>
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                                 Adresse email
@@ -48,6 +53,8 @@ export function Signin() {
                                     autoComplete="email"
                                     required
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    value={email}
+                                    onChange={e => setEmail(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -72,8 +79,11 @@ export function Signin() {
                                     autoComplete="current-password"
                                     required
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    value={password}
+                                    onChange={e => setPassword(e.target.value)}
                                 />
                             </div>
+                            {error && <div className="text-red-500">{error}</div>}
                         </div>
 
                         <div>
@@ -81,9 +91,7 @@ export function Signin() {
                                 type="submit"
                                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
-                                <Link to={'/accueil'} state={userAdmin}>
                                     Se connecter
-                                </Link>
                             </button>
                         </div>
                     </form>
