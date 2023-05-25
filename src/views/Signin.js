@@ -18,10 +18,11 @@ export function Signin() {
         });
 
         if (response.ok) {
-            navigate('/productList');
+            navigate('/accueil');
         } else {
             setError('Mail ou Mdp incorrects');
         }
+
     }
 
     return (

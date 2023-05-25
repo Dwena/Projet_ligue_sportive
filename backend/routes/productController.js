@@ -3,7 +3,7 @@ const router = express.Router();
 const Product = require('../models/Product');
 const mongoose = require('mongoose');
 
-router.get('/products', async (req, res) => {
+router.get('/getAll', async (req, res) => {
     try {
         const product = await Product.find();
         res.json(product);
@@ -12,8 +12,16 @@ router.get('/products', async (req, res) => {
     }
 });
 
+router.get('/getByTitle/:title', async (req, res) => {
+    try {
+        const product = await Product.findOne({title: req.params.title});
+        res.json(product);
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+});
 
-router.get('/product/:id', async (req, res) => {
+router.get('/getById/:id', async (req, res) => {
     try {
         const product = await Product.findById(req.params.id);
         res.json(product);
@@ -42,7 +50,7 @@ router.post('/add-product', async (req, res) => {
     }
 );
 
-router.put('/product/:id', async (req, res) => {
+router.put('/update/:id', async (req, res) => {
         try {
             const product = await Product.findByIdAndUpdate( req.params.id, req.body, {new: true});
             res.json(product);
@@ -52,7 +60,7 @@ router.put('/product/:id', async (req, res) => {
     }
 );
 
-router.delete('/product/:id', async (req, res) => {
+router.delete('/delete/:id', async (req, res) => {
         try {
             await Product.findByIdAndRemove(req.params.id, req.body);
             res.json({message: 'Product deleted'});

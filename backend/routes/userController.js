@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const Product = require('../models/Product');
 const mongoose = require('mongoose');
 
 
@@ -14,7 +15,8 @@ router.post('/register', async (req, res) => {
         phone : req.body.phone,
         email : req.body.email,
         password : req.body.password,
-        administrator : req.body.administrator
+        administrator : req.body.administrator ,
+        cart : req.body.cart
     });
 
     try {
@@ -73,7 +75,8 @@ router.put('/:id', async (req, res) => {
                 phone : req.body.phone,
                 email : req.body.email,
                 password : req.body.password,
-                administrator : req.body.administrator
+                administrator : req.body.administrator,
+                cart : req.body.cart
             }}
         );
         if(updatedUser.nModified > 0) {
@@ -99,5 +102,86 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json({message: error.message});
     }
 });
+
+// Ajouter un produit au panier de l'utilisateur
+router.post('/:id/cart', (req, res) => {
+    const { id } = req.params;
+    const { product, quantity } = req.body;
+  
+    User.findById(id).then(user=>{
+        user.cart.push({ product: product, quantity });
+        user.save().then(()=>{
+            res.send('Le produit a été ajouté au panier avec succès.');
+        }).catch(err=>{
+            console.error(err);
+            return res.status(500).send('Une erreur est survenue lors de la sauvegarde de l\'utilisateur.');
+        });
+    }).catch(err=>{
+        console.error(err);
+        return res.status(500).send('Une erreur est survenue lors de la recherche de l\'utilisateur.');
+    });
+  });
+  
+  // Valider le panier de l'utilisateur
+  router.post('/:id/cart/validate', (req, res) => {
+    const { id } = req.params;
+    User.findById(id).then(user=>{
+          // Réduire la quantité de chaque produit dans le panier
+          user.cart.forEach((item) => {
+            Product.findByIdAndUpdate(item.product, { $inc: { quantity: -item.quantity } }).catch
+            ((err) => {
+                console.error(err);
+                return res.status(500).send('Une erreur est survenue lors de la mise à jour de la quantité de produits.');
+                }
+            );
+          });
+      
+          // Vider le panier de l'utilisateur
+          user.cart = [];
+      
+          user.save().then().catch((err) => {
+            console.error(err);
+            return res.status(500).send('Une erreur est survenue lors de la sauvegarde de l\'utilisateur.');
+          }
+            );
+        }).catch((err)=>{
+            console.error(err);
+            return res.status(500).send('Une erreur est survenue lors de la recherche de l\'utilisateur.');
+        })
+    });
+
+    
+
+
+    // User.findById(id, (err, user) => {
+    //   if (err) {
+    //     console.error(err);
+    //     return res.status(500).send('Une erreur est survenue lors de la recherche de l\'utilisateur.');
+    //   }
+  
+    //   // Réduire la quantité de chaque produit dans le panier
+    //   user.cart.forEach((item) => {
+    //     Product.findByIdAndUpdate(item.product, { $inc: { quantity: -item.quantity } }, (err) => {
+    //       if (err) {
+    //         console.error(err);
+    //         return res.status(500).send('Une erreur est survenue lors de la mise à jour de la quantité du produit.');
+    //       }
+    //     });
+    //   });
+  
+    //   // Vider le panier de l'utilisateur
+    //   user.cart = [];
+  
+    //   user.save((err) => {
+    //     if (err) {
+    //       console.error(err);
+    //       return res.status(500).send('Une erreur est survenue lors de la sauvegarde de l\'utilisateur.');
+    //     }
+  
+    //     res.send('Le panier a été validé avec succès.');
+    //   });
+    // });
+//   });
+  
 
 module.exports = router;

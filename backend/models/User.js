@@ -8,7 +8,11 @@ const userSchema = new Schema({
         phone: String,
         email: String,
         password: String,
-        administrator: {type : Boolean, default:false} 
+        administrator: {type : Boolean, default:false}, 
+        cart: [{
+            product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+            quantity: Number
+          }]
     }
 );
 
