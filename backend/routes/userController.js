@@ -112,6 +112,31 @@ router.put('/:id', async (req, res) => {
     }
 });
 
+router.put('/email/:email', async (req, res) => {
+    try {
+      const updatedUser = await User.updateOne(
+        { email: req.params.email },
+        {
+          $set: {
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            phone: req.body.phone,
+          },
+        }
+      );
+  
+      if (updatedUser.nModified > 0) {
+        res.status(404).json({ message: "User not found" });
+      } else {
+        res.status(200).json({ message: "User updated successfully!" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+  
+  
+
 // Supprimer un utilisateur
 router.delete('/:id', async (req, res) => {
     try {
