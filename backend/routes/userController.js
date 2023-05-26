@@ -131,19 +131,17 @@ router.delete('/:id', async (req, res) => {
 // Ajouter un produit au panier de l'utilisateur
 router.post('/:id/cart', (req, res) => {
     const { id } = req.params;
-    const { product, quantity } = req.body;
-  
+    const { product, title, price, img, quantity, description, category } = req.body;
     User.findById(id)
       .then(user => {
         // Vérifier si le produit est déjà dans le panier de l'utilisateur
-        const cartItem = user.cart.find(item => item.product=== product);
-  
+        const cartItem = user.cart.find(item => item.product.toString() === product);
         if (cartItem) {
           // Si le produit est déjà dans le panier, mettre à jour la quantité
           cartItem.quantity += quantity;
         } else {
           // Si le produit n'est pas dans le panier, l'ajouter avec la quantité spécifiée
-          user.cart.push({ product, quantity });
+          user.cart.push({ product, title, price, img, quantity, description, category});
         }
   
         user.save()

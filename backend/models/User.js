@@ -11,7 +11,12 @@ const userSchema = new Schema({
         administrator: {type : Boolean, default:false}, 
         cart: [{
             product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
-            quantity: Number
+            title: String,
+            price: Number,
+            img: String,
+            quantity : Number,
+            description: String,
+            category: [String]
           }]
     }
 );
