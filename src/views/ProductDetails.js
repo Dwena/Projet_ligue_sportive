@@ -1,5 +1,7 @@
 import {useEffect, useState} from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import {useParams} from 'react-router';
 import {useLocation} from "react-router-dom";
 import Navbar from "../components/Navbar";
@@ -8,12 +10,12 @@ const ProductDetails = () => {
     const [product, setProduct] = useState(null);
     const productId = useParams().id;
     let {state} = useLocation();
-    let user = state.user
-    const addToCart = async (quantity) => {
+    let user = state ? state.user : null;
+    const addToCart = async () => {
         try {
-            const response = await axios.post(`http://localhost:8000/user/id/cart`, {
+            const response = await axios.post(`http://localhost:8000/user/${user._id}/cart`, {
                 productId: productId,
-                quantity: quantity
+                quantity: 1
             });
         } catch (error) {
         }
