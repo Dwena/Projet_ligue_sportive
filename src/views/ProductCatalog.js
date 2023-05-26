@@ -22,7 +22,7 @@ export default function ProductCatalog() {
     }, []);
 
     const getStockStatus = (quantity) => {
-        if(quantity > 100) return <p className="mt-1 text-lg font-medium text-green-600">En stock</p>;
+        if(quantity > 30) return <p className="mt-1 text-lg font-medium text-green-600">En stock</p>;
         if(quantity > 0) return <p className="mt-1 text-lg font-medium text-yellow-600">Bientôt en rupture</p>;
         return <p className="mt-1 text-lg font-medium text-red-600">Épuisé</p>;
     }
