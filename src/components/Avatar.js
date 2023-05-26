@@ -49,16 +49,28 @@ export default function Avatar({user}) {
                             )}
                         </Menu.Item>
                         {user.administrator && (
-                            <Menu.Item>
-                                {({active}) => (
-                                    <Link
-                                        to={'/admin-product'} state={{user: user}}
-                                        className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                    >
-                                        Mon espace administrateur
-                                    </Link>
-                                )}
-                            </Menu.Item>
+                            <>
+                                <Menu.Item>
+                                    {({active}) => (
+                                        <Link
+                                            to={'/admin-user'} state={{user: user}}
+                                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                        >
+                                            Liste des utilisateurs
+                                        </Link>
+                                    )}
+                                </Menu.Item>
+                                <Menu.Item>
+                                    {({active}) => (
+                                        <Link
+                                            to={'/admin-product'} state={{user: user}}
+                                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                        >
+                                            Liste des produits
+                                        </Link>
+                                    )}
+                                </Menu.Item>
+                            </>
                         )}
                         <Menu.Item>
                             {({active}) => (
