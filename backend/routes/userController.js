@@ -127,22 +127,36 @@ router.delete('/:id', async (req, res) => {
 });
 
 // Ajouter un produit au panier de l'utilisateur
+
+// Ajouter un produit au panier de l'utilisateur
 router.post('/:id/cart', (req, res) => {
     const { id } = req.params;
     const { product, quantity } = req.body;
   
-    User.findById(id).then(user=>{
-        user.cart.push({ product: product, quantity });
-        user.save().then(()=>{
+    User.findById(id)
+      .then(user => {
+        // Vérifier si le produit est déjà dans le panier de l'utilisateur
+        const cartItem = user.cart.find(item => item.product=== product);
+  
+        if (cartItem) {
+          // Si le produit est déjà dans le panier, mettre à jour la quantité
+          cartItem.quantity += quantity;
+        } else {
+          // Si le produit n'est pas dans le panier, l'ajouter avec la quantité spécifiée
+          user.cart.push({ product, quantity });
+        }
+  
+        user.save()
+          .then(() => {
             res.send('Le produit a été ajouté au panier avec succès.');
         }).catch(err=>{
             console.error(err);
             return res.status(500).send('Une erreur est survenue lors de la sauvegarde de l\'utilisateur.');
-        });
+          });
     }).catch(err=>{
         console.error(err);
         return res.status(500).send('Une erreur est survenue lors de la recherche de l\'utilisateur.');
-    });
+      });
   });
   
   // Valider le panier de l'utilisateur
