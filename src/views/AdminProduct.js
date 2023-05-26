@@ -3,23 +3,23 @@ import { useLocation } from 'react-router-dom';
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-function AdminUser (){
+function AdminProduct (){
     const {state} = useLocation();
     const user = state ? state.user : null;
-    const [users, setUsers] = useState([]);
+    const [products, setProducts] = useState([]);
 
-    const deleteUser = (id) => {
-        axios.delete(`http://localhost:8000/user/${id}`).then(() => {
-            console.log("Utilisateur supprimé");
-            getUser();
+    const deleteProduct= (id) => {
+        axios.delete(`http://localhost:8000/product/delete/${id}`).then(() => {
+            console.log("Produit supprimé");
+            getProducts();
         });
     };
-    const getUser  = () => {axios.get("http://localhost:8000/user/").then((response) => {
-        setUsers(response.data);
+    const getProducts  = () => {axios.get("http://localhost:8000/product/getAll").then((response) => {
+        setProducts(response.data);
         console.log(response.data);
     });}
     useEffect(() => {
-        getUser();
+        getProducts();
     }, []);
    
     return (
@@ -30,19 +30,19 @@ function AdminUser (){
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" className="px-6 py-3">
-                        Nom
+                        Titre
                     </th>
                     <th scope="col" className="px-6 py-3">
-                        Prénom
+                        Description
                     </th>
                     <th scope="col" className="px-6 py-3">
-                        Tel
+                        Prix
                     </th>
                     <th scope="col" className="px-6 py-3">
-                        Email
+                        category
                     </th>
                     <th scope="col" className="px-6 py-3">
-                        Administateur
+                        Stock
                     </th>
                     <th scope="col" className="px-6 py-3">
                         Action
@@ -50,25 +50,25 @@ function AdminUser (){
                 </tr>
             </thead>
             <tbody>
-            {users.map(user => (
-                <tr key={user._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+            {products.map(p => (
+                <tr key={p._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {user.firstname}
+                    {p.title}
                 </td>
                 <td className="px-6 py-4">
-                    {user.lastname}
+                    {p.description}
                 </td>
                 <td className="px-6 py-4">
-                    {user.phone}
+                    {p.price} €
                 </td>
                 <td className="px-6 py-4">
-                    {user.email}
+                    {p.category}
                 </td>
                 <td className="px-6 py-4">
-                    {user.administrator ? "Oui" : "Non"}
+                    {p.quantity}
                 </td>
                 <td className="px-6 py-4">
-                    <button onClick={() => deleteUser(user._id)} className="px-4 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-red-600 rounded-md dark:bg-gray-800 hover:bg-red-500 dark:hover:bg-gray-700 focus:outline-none focus:bg-red-500 dark:focus:bg-gray-700">Supprimer</button>
+                    <button onClick={() => deleteProduct(p._id)} className="px-4 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-red-600 rounded-md dark:bg-gray-800 hover:bg-red-500 dark:hover:bg-gray-700 focus:outline-none focus:bg-red-500 dark:focus:bg-gray-700">Supprimer</button>
                 </td>
                 </tr>
             ))}
@@ -79,4 +79,4 @@ function AdminUser (){
 
 )}
 
-export default AdminUser;
+export default AdminProduct;
