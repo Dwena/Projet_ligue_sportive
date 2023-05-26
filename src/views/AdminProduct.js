@@ -2,11 +2,13 @@ import Navbar from "../components/Navbar";
 import { useLocation } from 'react-router-dom';
 import axios from "axios";
 import { useState, useEffect } from "react";
+import DeleteProduct from "../modals/DeleteProduct";
 
 function AdminProduct (){
     const {state} = useLocation();
     const user = state ? state.user : null;
     const [products, setProducts] = useState([]);
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
     const deleteProduct= (id) => {
         axios.delete(`http://localhost:8000/product/delete/${id}`).then(() => {
@@ -68,7 +70,11 @@ function AdminProduct (){
                     {p.quantity}
                 </td>
                 <td className="px-6 py-4">
-                    <button onClick={() => deleteProduct(p._id)} className="px-4 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-red-600 rounded-md dark:bg-gray-800 hover:bg-red-500 dark:hover:bg-gray-700 focus:outline-none focus:bg-red-500 dark:focus:bg-gray-700">Supprimer</button>
+                <button onClick={() => setShowConfirmationModal(true)}>Supprimer </button>
+                {showConfirmationModal && (
+                <DeleteProduct onClose={() => setShowConfirmationModal(false)} productId={p._id} deleteProduct={deleteProduct} />
+                )}
+                <button className="px-4 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-red-600 rounded-md dark:bg-gray-800 hover:bg-red-500 dark:hover:bg-gray-700 focus:outline-none focus:bg-red-500 dark:focus:bg-gray-700">Ajouter</button>
                 </td>
                 </tr>
             ))}
