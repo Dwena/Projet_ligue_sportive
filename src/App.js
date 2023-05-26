@@ -5,7 +5,6 @@ import {Signup} from "./views/Signup";
 import NotFound from "./views/NotFound";
 import {Navigate, Route, Routes} from "react-router-dom";
 import {RecoverPswd} from "./views/RecoverPswd";
-import OrderedProduct from "./views/OrderedProduct";
 import ProductCatalog from "./views/ProductCatalog";
 import ProductDetails from "./views/ProductDetails";
 import MyAccount from "./views/MyAccount";
@@ -22,7 +21,6 @@ function App() {
                 <Route path="/accueil" element={<Home/>}/>
                 <Route path="/catalogue" element={<ProductCatalog/>}/>
                 <Route path="/product/:id" element={<ProductDetails/>}/>
-                <Route path="/commande" element={<OrderedProduct/>}/>
                 <Route path="/mon-compte" element={<MyAccount/>}/>
                 <Route path="/admin-user" element={<AdminUser/>}/>
                 <Route path="/admin-product" element={<AdminProduct/>}/>

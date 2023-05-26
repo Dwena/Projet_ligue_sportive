@@ -3,10 +3,6 @@ import {Bars3Icon, ShoppingCartIcon, XMarkIcon} from '@heroicons/react/24/outlin
 import {Link} from "react-router-dom";
 import Avatar from "./Avatar";
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-}
-
 export default function Navbar({user}) {
     return (
         <Disclosure as="nav" className="bg-gray-800">
@@ -49,11 +45,6 @@ export default function Navbar({user}) {
                                               state={{user: user}}
                                               className='text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium'>
                                             Liste des produits
-                                        </Link>
-                                        <Link to={'/commande'}
-                                              state={{user: user}}
-                                              className='text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium'>
-                                            Liste des commandes
                                         </Link>
 
                                         {user && user.administrator &&

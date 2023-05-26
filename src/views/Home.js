@@ -40,10 +40,6 @@ export default function Home() {
                               className="text-sm font-semibold leading-6 text-gray-900">
                             Liste des produits
                         </Link>
-                        <Link to={'/commande'} state={{user: user}}
-                              className="text-sm font-semibold leading-6 text-gray-900">
-                            Liste des commandes
-                        </Link>
                     </div>
                     <div className="hidden lg:flex lg:flex-1 lg:justify-end">
                         {user ? (
@@ -81,9 +77,6 @@ export default function Home() {
                                 <div className="space-y-2 py-6">
                                     <Link to={'/catalogue'} className="text-sm font-semibold leading-6 text-gray-900">
                                         Liste des produits
-                                    </Link>
-                                    <Link to={'/commande'} className="text-sm font-semibold leading-6 text-gray-900">
-                                        Liste des commandes
                                     </Link>
                                 </div>
                                 <div className="py-6">
