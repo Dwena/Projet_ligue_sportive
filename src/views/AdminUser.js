@@ -2,12 +2,15 @@ import Navbar from "../components/Navbar";
 import { useLocation } from 'react-router-dom';
 import axios from "axios";
 import { useState, useEffect } from "react";
+import DeleteUser from "../modals/DeleteUser";
 
 function AdminUser (){
     const {state} = useLocation();
     const user = state ? state.user : null;
     const [users, setUsers] = useState([]);
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
+    
     const deleteUser = (id) => {
         axios.delete(`http://localhost:8000/user/${id}`).then(() => {
             console.log("Utilisateur supprimé");
@@ -68,8 +71,10 @@ function AdminUser (){
                     {user.administrator ? "Oui" : "Non"}
                 </td>
                 <td className="px-6 py-4">
-                    <button onClick={() => deleteUser(user._id)} className="px-4 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-red-600 rounded-md dark:bg-gray-800 hover:bg-red-500 dark:hover:bg-gray-700 focus:outline-none focus:bg-red-500 dark:focus:bg-gray-700">Supprimer</button>
-                </td>
+                <button onClick={() => setShowConfirmationModal(true)}>Supprimer </button>
+                {showConfirmationModal && (
+                <DeleteUser onClose={() => setShowConfirmationModal(false)} userId={user._id} deleteUser={deleteUser} />
+                )} </td>
                 </tr>
             ))}
             </tbody>
