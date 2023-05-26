@@ -1,13 +1,13 @@
-import {useEffect, useState} from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router';
-import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router";
+import { useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
 const ProductDetails = () => {
     const [product, setProduct] = useState(null);
     const productId = useParams().id;
-    let {state} = useLocation();
+    let { state } = useLocation();
     let user = state ? state.user : null;
     const addToCart = async () => {
         try {
@@ -36,65 +36,57 @@ const ProductDetails = () => {
         return <div>Loading...</div>;
     }
 
+    let availabilityText, availabilityColor;
+    if (product.quantity > 30) {
+        availabilityText = "En stock";
+        availabilityColor = "text-green-600";
+    } else if (product.quantity > 0) {
+        availabilityText = "Bientôt en rupture";
+        availabilityColor = "text-orange-600";
+    } else {
+        availabilityText = "Épuisé";
+        availabilityColor = "text-red-600";
+    }
+
     return (
         <div className="bg-white">
             <Navbar user={user}/>
-            <div className="pt-6">
-                <nav aria-label="Breadcrumb">
-                    <ol
-                        role="list"
-                        className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8"
-                    >
-                        {/* Breadcrumbs */}
-                    </ol>
-                </nav>
-
-                {/* Image gallery */}
-                <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-                    {/* Image gallery */}
-                </div>
-
-                {/* Product info */}
-                <div
-                    className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
-                    <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-                        <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{product.title}</h1>
-                        <p className="text-3xl tracking-tight text-gray-900">{product.price} €</p>
-                        <p className="text-lg font-medium text-gray-900">{product.quantity} en stock</p>
-                        <p className="text-sm text-gray-600">{product.description}</p>
-                        <div className="mt-10">
-                            <h3 className="text-sm font-medium text-gray-900">Category</h3>
-                            <ul className="mt-4">
-                                {product.category.map((category, index) => (
-                                    <li key={index} className="text-sm text-gray-600">
-                                        {category}
-                                    </li>
-                                ))}
-                            </ul>
+            <div className="max-w-2xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:max-w-7xl lg:px-8">
+                <div className="lg:grid lg:grid-cols-2 lg:gap-x-8">
+                    <div className="flex items-center justify-center">
+                        <div className="overflow-hidden w-full h-96 rounded-lg">
+                            <img src={product.img} alt={product.title} className="object-contain w-full h-full"/>
                         </div>
                     </div>
 
+                    <div className="mt-10 lg:mt-0">
+                        <h1 className="text-3xl font-bold tracking-tight text-gray-900">{product.title}</h1>
+                        <p className="mt-4 text-gray-500">{product.description}</p>
 
-                    <div
-                        className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
+                        <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900">{product.price} €</p>
+
+                        <p className={`mt-6 text-2xl font-semibold ${availabilityColor}`}>{availabilityText}</p>
+                        <hr className="my-6"/>
+
                         <div>
-                            <h3 className="sr-only">Description</h3>
-                            <div className="space-y-6">
-                                <p className="text-base text-gray-900">{product.description}</p>
-                            </div>
+                            <h3 className="font-medium text-gray-900">Categories</h3>
+                            {product.category.map((category, index) => (
+                                <p key={index} className="text-gray-600">{category}</p>
+                            ))}
+                        </div>
+
+                        <div className="mt-8">
+                            <button
+                                onClick={addToCart}
+                                className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
+                                Ajouter au panier
+                            </button>
                         </div>
                     </div>
-                    <button
-                        type="submit"
-                        className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        onClick={addToCart}>
-                        Add to bag
-                    </button>
                 </div>
             </div>
         </div>
     );
-
 };
 
 export default ProductDetails;
