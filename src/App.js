@@ -11,6 +11,8 @@ import ProductDetails from "./views/ProductDetails";
 import MyAccount from "./views/MyAccount";
 import AdminScreen from "./views/AdminScreen";
 import ShoppingCart from "./components/ShoppingCart";
+import AdminUser from './views/AdminUser';
+import AdminProduct from './views/AdminProduct';
 
 function App() {
     return (
@@ -24,6 +26,8 @@ function App() {
                 <Route path="/commande" element={<OrderedProduct/>}/>
                 <Route path="/mon-compte" element={<MyAccount/>}/>
                 <Route path="/admin" element={<AdminScreen/>}/>
+                <Route path="/admin-user" element={<AdminUser/>}/>
+                <Route path="/admin-product" element={<AdminProduct/>}/>
                 <Route path="/panier" element={<ShoppingCart/>}/>
                 <Route path="/mot-de-passe-oublie" element={<RecoverPswd/>}/>
                 <Route path="*" element={<Navigate to="/not-found" replace/>}/>
