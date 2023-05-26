@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router';
-import { useLocation } from 'react-router-dom';
+import {useParams} from 'react-router';
+import {useLocation} from 'react-router-dom';
 import Navbar from "../components/Navbar";
 
 const ProductDetails = () => {
@@ -11,9 +11,14 @@ const ProductDetails = () => {
     let user = state ? state.user : null;
     const addToCart = async () => {
         try {
-            const response = await axios.post(`http://localhost:8000/user/${user._id}/cart`, {
+            await axios.post(`http://localhost:8000/user/${user._id}/cart`, {
                 product: productId,
-                quantity: 1
+                quantity: 1,
+                title: product.title,
+                price: product.price,
+                img: product.img,
+                description: product.description,
+                category: product.category
             });
         } catch (error) {
         }
