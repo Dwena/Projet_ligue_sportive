@@ -8,7 +8,7 @@ export default function ProductCatalog() {
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 12;
     let {state} = useLocation();
-    let user = state.user
+    let user = state ? state.user : null;
 
     useEffect(() => {
         axios.get('http://localhost:8000/product/getAll')
